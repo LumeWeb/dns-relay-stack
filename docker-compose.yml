@@ -1,0 +1,57 @@
+version: "3.7"
+
+services:
+  gundns:
+    image: lumeweb/gundns:master
+    container_name: gundns
+    restart: unless-stopped
+    environment:
+      - RPC_PROXY_HOST=rpcproxy
+      - RPC_PROXY_PORT=80
+    volumes:
+      - /opt/dnsrelay/data/gundns:/app/data
+    expose:
+      - 80
+  rpcproxy:
+    image: lumeweb/rpcproxy:master
+    container_name: rpcproxy
+    restart: unless-stopped
+    env_file:
+      - /opt/dnsrelay/data/.env
+    volumes:
+      - /opt/dnsrelay/data/gundns:/app/data
+    expose:
+      - 80
+  handshake:
+    image: skynetlabs/hsd:latest
+    command: --chain-migrate=2 --spv
+    container_name: handshake
+    environment:
+      - HSD_LOG_CONSOLE=false
+      - HSD_HTTP_HOST=0.0.0.0
+      - HSD_NETWORK=main
+      - HSD_PORT=12037
+    expose:
+      - 12037
+  certbot:
+    image: certbot/dns-cloudflare:v1.25.0
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    container_name: certbot
+    restart: unless-stopped
+    volumes:
+      - /opt/dnsrelay/data/certbot:/etc/letsencrypt
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    container_name: nginx
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - /opt/dnsrelay/data/certbot:/etc/letsencrypt
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - gundns
