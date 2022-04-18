@@ -34,7 +34,7 @@ services:
     expose:
       - 12037
   certbot:
-    image: certbot/dns-cloudflare:v1.25.0
+    image: certbot/certbot:latest
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
     container_name: certbot
     restart: unless-stopped
