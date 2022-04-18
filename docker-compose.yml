@@ -23,7 +23,7 @@ services:
     expose:
       - 80
   handshake:
-    image: skynetlabs/hsd:latest
+    image: skynetlabs/hsd:3.0.1
     command: --chain-migrate=2 --spv
     container_name: handshake
     environment:
