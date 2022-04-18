@@ -46,8 +46,6 @@ services:
       dockerfile: Dockerfile
     container_name: nginx
     restart: unless-stopped
-    env_file:
-      - .env
     volumes:
       - /opt/dnsrelay/data/certbot:/etc/letsencrypt
     ports:
