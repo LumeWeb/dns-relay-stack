@@ -13,7 +13,7 @@ services:
     expose:
       - 80
   rpcproxy:
-    image: lumeweb/rpcproxy:master
+    image: lumeweb/rpcproxy:develop
     container_name: rpcproxy
     restart: unless-stopped
     env_file:
