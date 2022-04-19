@@ -20,6 +20,7 @@ services:
       - /opt/dnsrelay/data/.env
     volumes:
       - /opt/dnsrelay/data/gundns:/app/data
+      - /opt/dnsrelay/data:/data
     expose:
       - 80
   handshake:
