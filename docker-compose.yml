@@ -15,7 +15,7 @@ services:
   rpcproxy:
     image: lumeweb/rpcproxy:develop
     container_name: rpcproxy
-    restart: unless-stopped
+    restart: always
     env_file:
       - /opt/dnsrelay/data/.env
     volumes:
