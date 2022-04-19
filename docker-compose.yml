@@ -63,3 +63,14 @@ services:
       - "443:443"
     depends_on:
       - gundns
+      - rpcproxy
+      - dashboard
+      - nginx_ssl_init
+  nginx_ssl_init:
+    image: emberstack/openssl
+    volumes:
+      - /opt/dnsrelay/data/certbot:/etc/letsencrypt
+    command: sh -c "mkdir -p /etc/letsencrypt/live/dnsrelay && test ! -f /etc/letsencrypt/live/dnsrelay/fullchain.pem && /usr/bin/openssl req -new -newkey rsa:2048 -days 3650 -nodes -x509 -subj '/CN=dns-relay-certificate' -keyout /etc/letsencrypt/live/dnsrelay/privkey.pem  -out /etc/letsencrypt/live/dnsrelay/fullchain.pem && cp /etc/letsencrypt/live/dnsrelay/fullchain.pem /etc/letsencrypt/live/dnsrelay/chain.pem"
+    restart: "no"
+    depends_on:
+      - certbot
