@@ -50,9 +50,7 @@ services:
       - /opt/dnsrelay/data/certbot:/etc/letsencrypt
       - /opt/dnsrelay/data/certbot/www:/var/www/certbot
   nginx:
-    build:
-      context: ./docker/nginx
-      dockerfile: Dockerfile
+    image: lumeweb/dns-relay-nginx:develop
     container_name: nginx
     restart: unless-stopped
     volumes:
