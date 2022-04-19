@@ -1,6 +1,7 @@
 #!/bin/bash
 
 (
+  # shellcheck disable=SC2164
   cd "$(dirname $0)"
   git reset --hard
   git pull
