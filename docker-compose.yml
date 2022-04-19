@@ -33,6 +33,8 @@ services:
       - HSD_PORT=12037
     expose:
       - 12037
+    ports:
+      - 12037
   certbot:
     image: certbot/certbot:latest
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
