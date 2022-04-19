@@ -7,3 +7,5 @@
   docker-compose -f docker-compose.yml pull
   bash "$(dirname $0)"/boot.sh
 )
+
+docker image prune -f
