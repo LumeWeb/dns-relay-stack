@@ -40,6 +40,15 @@ services:
     restart: unless-stopped
     volumes:
       - /opt/dnsrelay/data/certbot:/etc/letsencrypt
+      - /opt/dnsrelay/data/certbot/www:/var/www/certbot
+  dashboard:
+    image:  lumeweb/dns-relay-dashboard:develop
+    expose:
+      - 80
+    volumes:
+      - /opt/dnsrelay/data:/data
+      - /opt/dnsrelay/data/certbot:/etc/letsencrypt
+      - /opt/dnsrelay/data/certbot/www:/var/www/certbot
   nginx:
     build:
       context: ./docker/nginx
